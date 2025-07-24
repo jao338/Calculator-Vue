@@ -1,10 +1,7 @@
 <template>
-  <div>A</div>
-  <div>{{ nome }}</div>
+  <DefaultCalculatorPage />
 </template>
 
 <script setup lang="ts">
-
-const nome: number = 'isso deve quebrar'
-
+import DefaultCalculatorPage from "../DefaultCalculator/DefaultCalculatorPage.vue";
 </script>

@@ -1,7 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import MainLayout from '../layouts/MainLayout.vue'
 import MainPage from '../pages/MainPage/MainPage.vue'
-import DefaultCalculatorPage from "../pages/DefaultCalculator/DefaultCalculatorPage.vue";
 
 const routes = [
     {
@@ -15,11 +14,6 @@ const routes = [
                 name: 'main-page',
                 component: MainPage,
             },
-            {
-                path: '/default-calculator',
-                name: 'default-calculator',
-                component: DefaultCalculatorPage
-            }
         ]
     },
 ]
