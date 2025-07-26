@@ -1,6 +1,6 @@
 <template>
     <button
-        class="cursor-pointer border border-gray-300 rounded-md font-bold py-2 px-4 w-full h-full"
+        class="cursor-pointer border border-gray-300 rounded-md font-bold py-2 px-4 w-full h-full "
         :class="[hasRowSpan2(value as string), hasColSpan3(value as string), color ]"
         @click="onClick(value)"
     >
