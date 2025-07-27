@@ -1,7 +1,7 @@
 <template>
-  <DefaultCalculator />
+  <Calculator />
 </template>
 
 <script setup lang="ts">
-import DefaultCalculator from "../DefaultCalculator/DefaultCalculator.vue";
+import Calculator from "../Calculator/Calculator.vue";
 </script>
