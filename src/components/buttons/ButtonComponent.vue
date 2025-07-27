@@ -42,7 +42,7 @@ function onClick(val: string | number): void {
     }
 }
 
-const specialValues: (string | number)[] = ['CE', 'C', 'backspace', '=', 'x²', 'sqrt'];
+const specialValues: (string | number)[] = ['CE', 'C', 'backspace', '='];
 
 function validatedChar(val: string|number): boolean {
     return !specialValues.includes(val)

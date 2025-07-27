@@ -4,18 +4,15 @@
         <div class="grid grid-rows-5 grid-flow-col gap-4">
             <template v-for="(row, rowIndex) in grid" :key="rowIndex">
                 <template v-for="item in row" :key="item.value">
-<!--                    Para animar isso, é necessário englobar num htmlelement no proprio componente-->
-<!--                    Mas ao fazer isso, quebra o layout, mas funciona-->
-<!--                    <div ref="teste">-->
-                        <ButtonComponent
-                            :label="item.label"
-                            :color="item.color"
-                            :value="item.value"
-                            @click="item.action"
-                            @emited-value="concatToValues"
-                            class="shadow-[2px_2px_4px_rgba(0,0,0,0.1)]"
-                        />
-<!--                    </div>-->
+                    <ButtonComponent
+                        :data-cy="`button-${item.value}`"
+                        :label="item.label"
+                        :color="item.color"
+                        :value="item.value"
+                        @click="item.action"
+                        @emited-value="concatToValues"
+                        class="shadow-[2px_2px_4px_rgba(0,0,0,0.1)]"
+                    />
                 </template>
             </template>
         </div>
@@ -31,10 +28,10 @@ import {Colors} from '../../components/Enums'
 import {ref} from "vue";
 import {type Grid} from "./Interface";
 
-const { evaluateExpression } = useCalculator()
+const {evaluateExpression} = useCalculator()
 
 const values = ref<(string | number)[]>([]);
-const result = ref<number|string>(0);
+const result = ref<number | string>(0);
 
 const resetNumber = (): number => 0;
 const resetArray = (): Array<string> => [];
@@ -54,7 +51,7 @@ function clearLastValue(): void {
 }
 
 function execute(): void {
-    if(evaluateExpression(values.value)){
+    if (evaluateExpression(values.value)) {
         result.value = evaluateExpression(values.value) as string
     }
     values.value = resetArray()
@@ -100,7 +97,7 @@ const grid = ref<Grid[][]>([
 * Criar ENUM com classes padrão? Ex. Estilos com background e borda arredondad em cinza
 * Criar um composable que retorne a estrutura do grid.
 * Criar um array com as estradas de teclado permitidas
-* Criar
+*
 * */
 
 </script>

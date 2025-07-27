@@ -1,0 +1,53 @@
+{
+  "sum": {
+    "buttons": [
+      "button-5",
+      "button-+",
+      "button-1",
+      "button-0",
+      "button-="
+    ],
+    "result": 15
+  },
+  "subtract": {
+    "buttons": [
+      "button-1",
+      "button-0",
+      "button--",
+      "button-5",
+      "button--",
+      "button-1",
+      "button-="
+    ],
+    "result": 4
+  },
+  "multiple": {
+    "buttons": [
+      "button-1",
+      "button-0",
+      "button-*",
+      "button-5",
+      "button-*",
+      "button-2",
+      "button-="
+    ],
+    "result": 100
+  },
+  "divide": {
+    "buttons": [
+      "button-1",
+      "button-0",
+      "button-0",
+      "button-/",
+      "button-2",
+      "button-/",
+      "button-2",
+      "button-/",
+      "button-2",
+      "button-/",
+      "button-2",
+      "button-="
+    ],
+    "result": 6.25
+  }
+}

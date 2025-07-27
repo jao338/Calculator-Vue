@@ -1,0 +1,35 @@
+{
+  "clickableButtons": [
+    "button-CE",
+    "button-C",
+    "button-backspace",
+    "button-7",
+    "button-8",
+    "button-9",
+    "button-/",
+    "button-sqrt",
+    "button-4",
+    "button-5",
+    "button-6",
+    "button-*",
+    "button-**2",
+    "button-1",
+    "button-2",
+    "button-3",
+    "button--",
+    "button-0",
+    "button-.",
+    "button-%",
+    "button-+",
+    "button-="
+  ],
+  "functions": {
+    "buttons": [
+      "button-1",
+      "button-2",
+      "button-+",
+      "button-1"
+    ],
+    "resultDeleteEntry": "12+"
+  }
+}
