@@ -32,6 +32,7 @@ const {evaluateExpression} = useCalculator()
 
 const values = ref<(string | number)[]>([]);
 const result = ref<number | string>(0);
+const specialChars = ['+', '-', '*', '/'];
 
 const resetNumber = (): number => 0;
 const resetArray = (): Array<string> => [];
@@ -49,6 +50,24 @@ function clearLastValue(): void {
     values.value.pop();
     result.value = resetNumber();
 }
+function clearEntry(): void {
+    values.value.findIndex(valor => specialChars.includes(valor as string)) == -1 ? values.value = resetArray() : null
+
+    const lastInvalidIndex = [...values.value]
+        .map((valor, idx) => ({ valor, idx }))
+        .reverse()
+        .find(({ valor }) =>
+            typeof valor === 'string' &&
+            specialChars.includes(valor) &&
+            valor.length === 1
+        )?.idx;
+
+    if (lastInvalidIndex !== undefined) {
+        values.value = values.value.slice(0, lastInvalidIndex);
+    }
+
+    result.value = resetNumber();
+}
 
 function execute(): void {
     if (evaluateExpression(values.value)) {
@@ -59,7 +78,7 @@ function execute(): void {
 
 const grid = ref<Grid[][]>([
     [
-        {value: 'CE', label: 'CE', color: Colors.bgBlue, action: clearAllData}, // Mudar depois, limpar apenas a entrada
+        {value: 'CE', label: 'CE', color: Colors.bgBlue, action: clearEntry},
         {value: 7, label: '7'},
         {value: 4, label: '4'},
         {value: 1, label: '1'},
@@ -97,6 +116,7 @@ const grid = ref<Grid[][]>([
 * Criar ENUM com classes padrão? Ex. Estilos com background e borda arredondad em cinza
 * Criar um composable que retorne a estrutura do grid.
 * Criar um array com as estradas de teclado permitidas
+* Não adicionar caracteres especiais quando "values.value" for vazio, quando o último item adicionado foi um caractere especial
 *
 * */
 
