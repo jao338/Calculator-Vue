@@ -1,31 +1,42 @@
 <template>
-    <div class="cursor-pointer border border-gray-300 rounded-xl bg-gray-100 mb-4 px-4 py-4 shadow-[2px_2px_4px_rgba(0,0,0,0.1)]">
-        <div class="rounded-md border border-gray-200 px-4 py-4 bg-gray-50 text-end">
-            <span v-if="result">{{ result }}</span>
-            <span v-else v-for="value in formatedValues" :key="value">
-                {{ value }}
-            </span>
+    <div
+        data-cy="visor"
+        class="cursor-pointer bg-gray-100 mb-4 px-4 py-4"
+        :class="[Colors.shadow, Colors.border]"
+    >
+        <div class="px-4 py-4 bg-gray-50 text-end" :class="Colors.border">
+            <div data-cy="result">
+                <span  v-for="value in formatedValues" :key="value">
+                    {{ value }}
+                </span>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import {computed, type ComputedRef, onMounted} from "vue";
+import {computed, type ComputedRef} from "vue";
+import {Colors} from "../Enums";
+import {useService} from "../../pages/Calculator/Service"
 
 const props = withDefaults(
     defineProps<{
         values: (string | number)[],
-        result?: number
     }>(),
     {
         values: () => [],
-        result: 0,
     }
 )
 
-const specialValues: (string | number)[] = ['CE', 'C', 'backspace', '=', 'x²', 'sqrt'];
+const { values } = useService();
 
-const formatedValues: ComputedRef = computed(() => {
-    return props.values.filter(item => !specialValues.includes(item))
-})
+const disallowedValues: (string | number)[] = ['sqrt', '^2'];
+
+const formatedValues: ComputedRef<(string | number)[]> = computed(() => {
+    const lastValue = values.value.at(-1);
+    return props.values.filter(item =>
+        !disallowedValues.includes(item) &&
+        item !== lastValue
+    );
+});
 </script>

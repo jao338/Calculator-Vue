@@ -10,12 +10,8 @@
 
 <script setup lang="ts">
 import {Colors} from '../Enums'
-import {ref} from "vue";
 
 const emits = defineEmits(['emitedValue'])
-const rootEl = ref<HTMLElement | null>(null)
-
-defineExpose({rootEl})
 
 defineProps({
     label: {
@@ -41,6 +37,14 @@ function hasColSpan3(val: string): string {
 }
 
 function onClick(val: string | number): void {
-    emits('emitedValue', val)
+    if(validatedChar(val)){
+        emits('emitedValue', val)
+    }
+}
+
+const specialValues: (string | number)[] = ['CE', 'C', 'backspace', '='];
+
+function validatedChar(val: string|number): boolean {
+    return !specialValues.includes(val)
 }
 </script>
