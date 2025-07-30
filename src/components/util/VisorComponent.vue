@@ -5,8 +5,7 @@
         :class="[Colors.shadow, Colors.border]"
     >
         <div class="px-4 py-4 bg-gray-50 text-end" :class="Colors.border">
-            <span data-cy="result" v-if="result">{{ result }}</span>
-            <div v-else data-cy="expression">
+            <div data-cy="result">
                 <span  v-for="value in formatedValues" :key="value">
                     {{ value }}
                 </span>
@@ -18,21 +17,26 @@
 <script setup lang="ts">
 import {computed, type ComputedRef} from "vue";
 import {Colors} from "../Enums";
+import {useService} from "../../pages/Calculator/Service"
 
 const props = withDefaults(
     defineProps<{
         values: (string | number)[],
-        result?: number | string
     }>(),
     {
         values: () => [],
-        result: 0,
     }
 )
 
-const specialValues: (string | number)[] = ['sqrt', '**2'];
+const { values } = useService();
+
+const disallowedValues: (string | number)[] = ['sqrt', '^2'];
 
 const formatedValues: ComputedRef<(string | number)[]> = computed(() => {
-    return props.values.filter(item => !specialValues.includes(item))
-})
+    const lastValue = values.value.at(-1);
+    return props.values.filter(item =>
+        !disallowedValues.includes(item) &&
+        item !== lastValue
+    );
+});
 </script>

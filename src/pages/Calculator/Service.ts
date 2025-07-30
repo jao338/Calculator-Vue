@@ -3,12 +3,13 @@ import {z} from "zod";
 import {type Grid} from "./Interface";
 import {Colors} from "../../components/Enums";
 import {ref} from "vue";
+import {useHelpers} from "../../composables/useHelpers";
 
 export function useService() {
-    const specialChars = ['+', '-', '*', '/'];
+    const specialChars: string[] = ['+', '-', '*',  '/', '%', '^2', 'sqrt', '.'];
     const values = ref<(string | number)[]>([]);
-    const result = ref<number | string>(0);
 
+    const { resetArray } = useHelpers();
     function evaluateExpression(values: (string | number)[]): number | string | boolean {
         const ExpressionSchema = z.array(z.union([z.string(), z.number()]))
 
@@ -19,7 +20,6 @@ export function useService() {
             const raw = values
                 .map(v => v.toString())
                 .join('')
-
             const result = evaluate(raw)
 
             if (!isFinite(Number(result))) return 'Divisão por zero'
@@ -62,7 +62,7 @@ export function useService() {
             ],
             [
                 { value: 'sqrt', label: '√', color: Colors.bgBlue },
-                { value: '**2', label: 'x²', color: Colors.bgBlue },
+                { value: '^2', label: 'x²', color: Colors.bgBlue },
                 { value: '=', label: '=', color: Colors.bgGreen, action: execute },
             ],
         ]
@@ -70,7 +70,6 @@ export function useService() {
 
     function clearAllData(): void {
         values.value = resetArray();
-        result.value = resetNumber();
     }
 
     function clearEntry(): void {
@@ -88,29 +87,24 @@ export function useService() {
         if (lastInvalidIndex !== undefined) {
             values.value = values.value.slice(0, lastInvalidIndex);
         }
-
-        result.value = resetNumber();
     }
 
     function clearLastValue(): void {
         values.value.pop();
-        result.value = resetNumber();
     }
 
     function execute(): void {
-        if (evaluateExpression(values.value)) {
-            result.value = evaluateExpression(values.value) as string
+        if(values.value.length > 0){
+            if (evaluateExpression(values.value)) {
+                const result: string = evaluateExpression(values.value) as string
+                values.value = String(result).split('')
+            }
         }
-        values.value = resetArray()
     }
-
-    const resetNumber = (): number => 0;
-    const resetArray = (): Array<string> => [];
 
     return {
         getGridItems,
         values,
-        result,
         specialChars,
     }
 }
