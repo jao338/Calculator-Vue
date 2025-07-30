@@ -6,7 +6,7 @@ import {ref} from "vue";
 import {useHelpers} from "../../composables/useHelpers";
 
 export function useService() {
-    const specialChars: string[] = ['+', '-', '*',  '/', '%', '^2', 'sqrt', '.'];
+    const specialChars: string[] = ['+', '-', '*',  '/', '%', '^2', 'sqrt'];
     const values = ref<(string | number)[]>([]);
 
     const { resetArray } = useHelpers();
