@@ -5,7 +5,7 @@
         :class="[Colors.shadow, Colors.border]"
     >
         <div class="px-4 py-4 bg-gray-50 text-end" :class="Colors.border">
-            <div data-cy="result">
+            <div data-cy="result" class="min-h-[24px]">
                 <span  v-for="value in formatedValues" :key="value">
                     {{ value }}
                 </span>

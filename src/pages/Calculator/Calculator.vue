@@ -12,6 +12,7 @@
                         @click="item.action"
                         @emited-value="concatToValues"
                         :class="Colors.shadow"
+                        class="min-w-[56px]"
                     />
                 </template>
             </template>
@@ -41,7 +42,7 @@ function concatToValues(val: string | number): void {
     }
 
     if (val === 'sqrt') {
-        applySquareRoot();
+        applySquareRoot(values.value);
         return;
     }
     else{
