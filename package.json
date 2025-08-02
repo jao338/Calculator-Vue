@@ -13,6 +13,7 @@
     "@vueuse/core": "^13.5.0",
     "cypress": "^14.5.3",
     "gsap": "^3.13.0",
+    "hotkeys-js": "^3.13.15",
     "mathjs": "^14.6.0",
     "tailwindcss": "^4.1.11",
     "vue": "^3.5.17",

@@ -21,40 +21,31 @@
 </template>
 
 <script setup lang="ts">
+import hotkeys from 'hotkeys-js';
 import ButtonComponent from "../../components/buttons/ButtonComponent.vue";
 import VisorComponent from "../../components/util/VisorComponent.vue";
 import {useService} from "./Service"
-import {useHelpers} from "../../composables/useHelpers"
 
 import {Colors} from '../../components/Enums'
-import {ref} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
 import {type Grid} from "./Interface";
 
-const {getGridItems, values, specialChars} = useService();
-const { applySquareRoot } = useHelpers();
+const {getGridItems, values, allowedKeys, concatToValues} = useService();
 
 const grid = ref<Grid[][]>(getGridItems());
 
-function concatToValues(val: string | number): void {
-    const isFirstValue = values.value.length === 0;
-    const isSpecialChar = specialChars.includes(val as string);
 
-    if (isFirstValue && isSpecialChar) {
-        return;
+onMounted(() => {
+  hotkeys('*', (event, handler) => {
+    const key = event.key?.toLowerCase()
+    if (key && allowedKeys.includes(key)) {
+      concatToValues(key);
     }
+  })
+})
 
-    if (val === 'sqrt') {
-        values.value = applySquareRoot(values.value);
-        return;
-    }
-
-    values.value.push(val);
-}
-
-/*
-*
-* Criar um array com as estradas de teclado permitidas
-*
-* */
+onBeforeUnmount(() => {
+  hotkeys.unbind('*')
+})
 
 </script>
