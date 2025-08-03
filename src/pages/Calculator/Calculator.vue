@@ -3,7 +3,7 @@
         <VisorComponent :values="values"/>
         <div :class="Colors.grid">
             <template v-for="(row, rowIndex) in grid" :key="rowIndex">
-                <template v-for="item in row" :key="item.value">
+                <template v-for="(item, itemIndex) in row" :key="`${item.value}-${itemIndex}`">
                     <ButtonComponent
                         :data-cy="`button-${item.value}`"
                         :label="item.label"
@@ -12,6 +12,7 @@
                         @click="item.action"
                         @emited-value="concatToValues"
                         :class="Colors.shadow"
+                        class="min-w-[56px]"
                     />
                 </template>
             </template>
@@ -20,53 +21,30 @@
 </template>
 
 <script setup lang="ts">
+import hotkeys from 'hotkeys-js';
 import ButtonComponent from "../../components/buttons/ButtonComponent.vue";
 import VisorComponent from "../../components/util/VisorComponent.vue";
 import {useService} from "./Service"
 
 import {Colors} from '../../components/Enums'
-import {ref} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
 import {type Grid} from "./Interface";
 
-const {getGridItems, values, specialChars} = useService();
+const {getGridItems, values, allowedKeys, concatToValues} = useService();
 
 const grid = ref<Grid[][]>(getGridItems());
 
-function concatToValues(val: string | number): void {
-    const isFirstValue = values.value.length === 0;
-    const isSpecialChar = specialChars.includes(val as string);
-
-    if (isFirstValue && isSpecialChar) {
-        return;
+onMounted(() => {
+  hotkeys('*', (event, handler) => {
+    const key = event.key?.toLowerCase();
+    if (key && allowedKeys.includes(key)) {
+      concatToValues(key);
     }
+  })
+})
 
-    if (val === 'sqrt') {
-        applySquareRoot();
-        return;
-    }
-    else{
-        values.value.push(val);
-    }
-}
-
-function applySquareRoot(): void {
-    const newValues: (string | number)[] = ['sqrt', '('];
-
-    for (const item of values.value) {
-        if (item !== 'sqrt') {
-            newValues.push(item);
-        }
-    }
-
-    newValues.push(')');
-    values.value = newValues;
-}
-
-/*
-*
-* Criar um array com as estradas de teclado permitidas
-* Exibir um array com valores diferentes para o visor ao invés da expressão toda
-*
-* */
+onBeforeUnmount(() => {
+  hotkeys.unbind('*')
+})
 
 </script>

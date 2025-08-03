@@ -6,7 +6,8 @@ describe('test_functional', () => {
     cy.fixture('test_functional').then((json) => {
       json.clickableButtons.forEach((val: string) => {
         cy.selectByAttribute(val).click();
-      })
+      });
+      cy.selectByAttribute('result').should('have.text', json.result);
     })
   })
   it('Must click some buttons and then click backspace ', () => {
@@ -15,26 +16,25 @@ describe('test_functional', () => {
         cy.selectByAttribute(val).click();
       })
       cy.selectByAttribute('button-backspace').click();
-      cy.selectByAttribute('expression').contains(json.functions.resultDeleteEntry)
+      cy.selectByAttribute('result').should('have.text', json.functions.resultDeleteLastDigit)
     })
   })
-  // Ainda não feito. Devo limpar a toda a ultima entrada após o caractere especial
-  // it('Must click some buttons and then click "CE" ', () => {
-  //   cy.fixture('test_functional').then((json) => {
-  //     json.functions.buttons.forEach((val: string) => {
-  //       cy.selectByAttribute(val).click();
-  //     })
-  //     cy.selectByAttribute('button-CE').click();
-  //     cy.selectByAttribute('expression').contains(json.functions.resultDeleteEntry)
-  //   })
-  // })
-  it('Must click some buttons and then click "C" ', () => {
+  it('Must click some buttons and then click "CE" ', () => {
     cy.fixture('test_functional').then((json) => {
       json.functions.buttons.forEach((val: string) => {
         cy.selectByAttribute(val).click();
       })
       cy.selectByAttribute('button-CE').click();
-      cy.selectByAttribute('expression', true)
+      cy.selectByAttribute('result').should('have.text', json.functions.resultDeleteEntry)
+    })
+  })
+  it('Must click some buttons and then click "C" ', () => {
+    cy.fixture('test_functional').then((json) => {
+      json.functions.buttons.forEach((val: string) => {
+        cy.selectByAttribute(val).click();
+      })
+      cy.selectByAttribute('button-C').click();
+      cy.selectByAttribute('result').should('not.have.text', json.functions.resultNotExpected)
     })
   })
 })

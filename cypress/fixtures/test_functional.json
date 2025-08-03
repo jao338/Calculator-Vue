@@ -12,7 +12,7 @@
     "button-5",
     "button-6",
     "button-*",
-    "button-**2",
+    "button-^2",
     "button-1",
     "button-2",
     "button-3",
@@ -23,6 +23,7 @@
     "button-+",
     "button-="
   ],
+  "result": "Expressão inválida",
   "functions": {
     "buttons": [
       "button-1",
@@ -30,6 +31,8 @@
       "button-+",
       "button-1"
     ],
-    "resultDeleteEntry": "12+"
+    "resultDeleteEntry": "12",
+    "resultDeleteLastDigit": "12+",
+    "resultNotExpected": "12+"
   }
 }
