@@ -1,0 +1,17 @@
+{
+  "powerButtons": [
+    "button-1",
+    "button-2",
+    "button-^2",
+    "button-="
+  ],
+  "sqrtButtons": [
+    "button-1",
+    "button-4",
+    "button-4",
+    "button-sqrt",
+    "button-="
+  ],
+  "resultPower": 144,
+  "resultSQRT": 12
+}

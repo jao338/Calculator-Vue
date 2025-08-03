@@ -6,7 +6,7 @@
     >
         <div class="px-4 py-4 bg-gray-50 text-end" :class="Colors.border">
             <div data-cy="result" class="min-h-[24px]">
-                <span  v-for="value in formatedValues" :key="value">
+                <span  v-for="(value, index) in formattedValues" :key="`${value}-${index}`">
                     {{ value }}
                 </span>
             </div>
@@ -15,9 +15,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, type ComputedRef} from "vue";
+import {computed} from "vue";
 import {Colors} from "../Enums";
-import {useService} from "../../pages/Calculator/Service"
 
 const props = withDefaults(
     defineProps<{
@@ -28,15 +27,17 @@ const props = withDefaults(
     }
 )
 
-const { values } = useService();
+const formatToken = (tok: string | number) => {
+  if (tok === 'sqrt') return '√('
+  if (tok === '^2')   return '²'
+  return tok
+}
 
 const disallowedValues: (string | number)[] = ['sqrt', '^2'];
 
-const formatedValues: ComputedRef<(string | number)[]> = computed(() => {
-    const lastValue = values.value.at(-1);
-    return props.values.filter(item =>
-        !disallowedValues.includes(item) &&
-        item !== lastValue
-    );
-});
+const formattedValues = computed(() =>
+    props.values
+        .filter((v) => !disallowedValues.includes(v as string))
+        .map(formatToken)
+)
 </script>

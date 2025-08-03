@@ -3,7 +3,7 @@
         <VisorComponent :values="values"/>
         <div :class="Colors.grid">
             <template v-for="(row, rowIndex) in grid" :key="rowIndex">
-                <template v-for="item in row" :key="item.value">
+                <template v-for="(item, itemIndex) in row" :key="`${item.value}-${itemIndex}`">
                     <ButtonComponent
                         :data-cy="`button-${item.value}`"
                         :label="item.label"
@@ -18,6 +18,7 @@
             </template>
         </div>
     </div>
+  {{ values }}
 </template>
 
 <script setup lang="ts">
@@ -34,10 +35,9 @@ const {getGridItems, values, allowedKeys, concatToValues} = useService();
 
 const grid = ref<Grid[][]>(getGridItems());
 
-
 onMounted(() => {
   hotkeys('*', (event, handler) => {
-    const key = event.key?.toLowerCase()
+    const key = event.key?.toLowerCase();
     if (key && allowedKeys.includes(key)) {
       concatToValues(key);
     }

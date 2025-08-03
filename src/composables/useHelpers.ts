@@ -11,8 +11,7 @@ export const useHelpers = () => {
         }
 
         newValues.push(')');
-        values = newValues;
-        return values
+        return newValues
     }
 
     return {

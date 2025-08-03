@@ -13,7 +13,7 @@ export function useService() {
     const {resetArray, applySquareRoot} = useHelpers();
 
     function evaluateExpression(values: (string | number)[]): number | string | boolean {
-        const ExpressionSchema = z.array(z.union([z.string(), z.number()]))
+        const ExpressionSchema = z.array(z.union([z.string(), z.number()]));
 
         const validated = ExpressionSchema.safeParse(values)
         if (!validated.success) return false
@@ -26,10 +26,9 @@ export function useService() {
 
             if (!isFinite(Number(result))) return 'Divisão por zero'
             if (isNaN(Number(result))) return 'Resultado indefinido'
-
             return result
         } catch (error) {
-            return false
+            return 'Expressão inválida';
         }
     }
 
@@ -71,7 +70,7 @@ export function useService() {
     }
 
     function getAllowedKeys(): string[] {
-        return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', '*', '/', '%', '.', 'enter', 'shift', 'backspace', '(', ')', 'escape']
+        return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', '*', '/', '%', '.', 'enter', 'backspace', '(', ')', 'escape']
     }
 
     function getSpecialChars(): string[] {
@@ -112,10 +111,16 @@ export function useService() {
         }
     }
 
-    function concatToValues(val: string | number): void {
+    function concatToValues(val: string | number, action?: () => void): void {
         const isFirstValue = values.value.length === 0;
         const isSpecialChar = specialChars.includes(val as string);
+
         if (isFirstValue && isSpecialChar) {
+            return;
+        }
+
+        if (action) {
+            action();
             return;
         }
 
