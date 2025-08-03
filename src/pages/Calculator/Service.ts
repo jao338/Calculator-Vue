@@ -70,11 +70,11 @@ export function useService() {
     }
 
     function getAllowedKeys(): string[] {
-        return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', '*', '/', '%', '.', 'enter', 'backspace', '(', ')', 'escape']
+        return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', '%', '.', 'enter', 'backspace', '(', ')', 'escape']
     }
 
     function getSpecialChars(): string[] {
-        return ['+', '-', '*', '/', '%', '^2', 'sqrt'];
+        return ['*', '/', '%', '^2', 'sqrt'];
     }
 
     function clearAllData(): void {
@@ -111,16 +111,11 @@ export function useService() {
         }
     }
 
-    function concatToValues(val: string | number, action?: () => void): void {
+    function concatToValues(val: string | number): void {
         const isFirstValue = values.value.length === 0;
         const isSpecialChar = specialChars.includes(val as string);
 
         if (isFirstValue && isSpecialChar) {
-            return;
-        }
-
-        if (action) {
-            action();
             return;
         }
 

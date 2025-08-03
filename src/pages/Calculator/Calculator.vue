@@ -18,7 +18,6 @@
             </template>
         </div>
     </div>
-  {{ values }}
 </template>
 
 <script setup lang="ts">
